@@ -54,8 +54,6 @@ export default function App() {
     fetchWeather();
   }, [query, units]);
 
-  // localStorage.clear();
-
   return (
     <div className={background}>
       <div className="max-w-4xl min-h-screen mx-auto p-2 relative   ">
