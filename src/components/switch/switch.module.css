@@ -1,0 +1,31 @@
+
+.toggle_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  color: #fff;
+  background-color: rgba(144, 145, 146, 0.2);
+  border-radius: 5px;
+  position: absolute;
+  transition: all 0.2s ease;
+  left: 30px;
+}
+
+.toggle_btn:hover {
+  background-color: rgba(142, 157, 219, 0.5);
+}
+
+.disable {
+  background-color: #90919233;
+  left: 0px;
+}
+
+.disable:hover {
+  background-color: rgba(142, 157, 219, 0.5);
+}

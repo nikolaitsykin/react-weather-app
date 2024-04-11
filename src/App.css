@@ -1,0 +1,63 @@
+.header_box {
+  grid-auto-flow: row;
+}
+
+.search_bar {
+  align-items: center;
+}
+
+.favourites_box {
+  justify-self: center;
+}
+
+.today_forecast_box {
+  justify-self: center;
+}
+
+.hour_forecast_box {
+  justify-self: center;
+}
+
+.dayly_forecast_and_weather_condition_box {
+  display: grid;
+  justify-self: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sunrise {
+  background-image: linear-gradient(rgb(121, 186, 244), rgb(240, 141, 102));
+}
+.sun {
+  background-image: linear-gradient(rgb(49, 123, 226), rgb(153, 193, 240));
+}
+.clear-day {
+  background-image: linear-gradient(rgb(49, 123, 226), rgb(153, 193, 240));
+}
+.partly-cloudy-day {
+  background-image: linear-gradient(rgb(147, 188, 245), rgb(174, 184, 192));
+}
+.sunset {
+  background-image: linear-gradient(rgb(134, 162, 232), rgb(210, 126, 126));
+}
+.clear-night {
+  background-image: linear-gradient(rgb(1, 40, 74), rgb(4, 1, 33));
+}
+.cloudy-night {
+  background-image: linear-gradient(rgb(28, 42, 55), rgb(39, 37, 52));
+}
+.partly-cloudy-night {
+  background-image: linear-gradient(rgb(28, 42, 55), rgb(39, 37, 52));
+}
+.fog {
+  background-image: linear-gradient(rgb(165, 170, 199), rgb(118, 128, 136));
+}
+.rain {
+  background-image: linear-gradient(rgb(108, 111, 133), rgb(85, 98, 108));
+}
+.cloudy {
+  background-image: linear-gradient(rgb(171, 174, 197), rgb(174, 184, 192));
+}
+.snow {
+  background-image: linear-gradient(rgb(170, 172, 181), rgb(186, 197, 206));
+}
