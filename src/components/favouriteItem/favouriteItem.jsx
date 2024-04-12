@@ -28,10 +28,12 @@ export default function FavoriteItem({
     const fetchWeather = async () => {
       let weatherData;
       weatherData = await getFormattedWeatherDataApi(city, units);
-      if (location === weatherData.address) {
-        setCurrentWeather(weather);
-        setActive(1);
-      } else setCurrentWeather(weatherData);
+      if (location !== weatherData.address) {
+        setCurrentWeather(weatherData);
+      } else {
+        setCurrentWeather(weatherData);
+        if (!active) setActive(1);
+      }
     };
     fetchWeather();
   }, [units]);
@@ -74,7 +76,7 @@ export default function FavoriteItem({
           </div>
           <div className="flex flex-col justify-between">
             <span className="text-4xl font-extralight text-white flex items-start self-end ">
-              {Math.round(currentWeather?.temp)}
+              {Math.round(currentWeather.temp)}
             </span>
             <span className="text-[11px] font-normal text-[#fffefe89] flex justify-between">
               H:{Math.round(currentWeather.temp_max)}

@@ -13,7 +13,9 @@ export function Favourites({
   active,
   setActive,
 }) {
+
   return (
+
     isFavShowed && (
       <div className="flex flex-col items-center justify-start gap-2 xxs:grid xxs:grid-cols-2 xs:grid xs:grid-cols-3 sm:grid sm:grid-cols-3 md:grid md:grid-cols-3 lg:flex lg:flex-row xl:flex xl:flex-row 2xl:flex 2xl:flex-row">
         {weather && (
@@ -33,7 +35,6 @@ export function Favourites({
           />
         )}
         {favourites?.map((favourite) => (
-          // console.log(favourites),
           <FavoriteItem
             favourite={favourite}
             location={location}
