@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDebounce } from "../../hooks/useDebounce";
-import { ReactComponent as AddIcon } from "../../icons/add.svg";
 import { ReactComponent as CancelIcon } from "../../icons/cancel.svg";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { loadOptions } from "../../utils/weatherApi";
@@ -93,7 +92,6 @@ export function Search({ favourites, setQuery, add, setActive }) {
         )}
         {isSelected && (
           <button className={classes.add_button} onClick={handleAddClick}>
-            {/* <AddIcon className={classes.add_icon} /> */}
             <span className={classes.add_button_text}>Add</span>
           </button>
         )}

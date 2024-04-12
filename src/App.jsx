@@ -5,11 +5,11 @@ import { Favourites } from "./components/favourites/favourites";
 import { Header } from "./components/header/header";
 import { HourForecast } from "./components/hourForecast/hourForecast";
 import { Search } from "./components/search/search";
+import { TodayForecast } from "./components/todayForecast/todayForecast";
 import { WeatherCondition } from "./components/weatherCondition/weatherCondition";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { backgroundSwitch } from "./utils/helpers";
 import { getFormattedWeatherDataApi, getLocation } from "./utils/weatherApi";
-import { TodayForecast } from "./components/todayForecast/todayForecast";
 
 export default function App() {
   const [weather, setWeather] = useState(null);

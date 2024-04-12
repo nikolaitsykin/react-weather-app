@@ -16,7 +16,9 @@ export function UvIndex({ weather: { uvindex } }) {
       </div>
       <div className="flex flex-col justify-start h-8">
         <div>
-          <span className="text-3xl text-white mr-1">{Math.round(uvindex)}</span>
+          <span className="text-3xl text-white mr-1">
+            {Math.round(uvindex)}
+          </span>
           <span className="text-xl text-white">{label}</span>
         </div>
       </div>

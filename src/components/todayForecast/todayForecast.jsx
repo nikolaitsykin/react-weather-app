@@ -1,7 +1,6 @@
 export function TodayForecast({
   weather: { address, temp, temp_min, temp_max, conditions },
 }) {
-  // console.log(address)
   return (
     <div className="flex flex-col h-56 items-center justify-center text-white ">
       <div className="text-3xl font-light">{address}</div>

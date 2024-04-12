@@ -1,4 +1,4 @@
-import { isNow, formatHour, formatAmPm } from "../../utils/helpers";
+import { formatAmPm, formatHour, isNow } from "../../utils/helpers";
 
 export function Hour({ dt, timezone, temperature, icon }) {
   return (

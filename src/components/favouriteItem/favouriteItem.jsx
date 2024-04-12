@@ -12,7 +12,6 @@ export default function FavoriteItem({
   favourite,
   location,
   city,
-  weather,
   units,
   remove,
   setWeather,

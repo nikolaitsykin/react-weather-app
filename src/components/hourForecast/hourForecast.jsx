@@ -6,7 +6,8 @@ export function HourForecast({ weather: { timezone, description }, items }) {
     <div className="w-full bg-[#50505133] rounded-lg grid p-2">
       <div className="h-4 flex">
         <span className="text-[#ffffff] text-xs font-ligth my-1 justify-start self-center mx-1">
-          {description}</span>
+          {description}
+        </span>
       </div>
       <div className="flex overflow-auto scroll-smooth justify-between">
         {items &&

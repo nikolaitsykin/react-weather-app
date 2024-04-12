@@ -32,8 +32,8 @@ export const formatHours = (dt, timezone, format = "ha'") =>
 
 export const formatHour = (dt, timezone, format = "h") =>
   DateTime.fromSeconds(dt).setZone(timezone).toFormat(format);
-  
-  export const formatHourTwentyFour = (dt, timezone, format = "HH") =>
+
+export const formatHourTwentyFour = (dt, timezone, format = "HH") =>
   DateTime.fromSeconds(dt).setZone(timezone).toFormat(format);
 
 export const formatDate = (dt, timezone, format = "LLL dd'") =>
@@ -56,9 +56,9 @@ export const backgroundSwitch = (data) => {
   let sunsetHour = formatHourTwentyFour(data.sunsetEpoch, data.timezone);
   let sunriseHour = formatHourTwentyFour(data.sunriseEpoch, data.timezone);
 
-  if ( currentHour === sunsetHour) {
+  if (currentHour === sunsetHour) {
     background = "sunset";
-  } else if ( currentHour === sunriseHour) {
+  } else if (currentHour === sunriseHour) {
     background = "sunrise";
   } else if (currentHour > sunsetHour && data.icon === "cloudy") {
     background = "cloudy-night";
@@ -119,7 +119,6 @@ export function feelsLikeDescription(feelslike, temp, wind, humidity) {
 export const substring = (str) => {
   return str.length > 13 ? str.substring(0, 10) + "..." : str;
 };
-
 
 export const findUniqueObj = (arr, newObj) => {
   const isUnique = arr.every((obj) => {
