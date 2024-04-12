@@ -17,7 +17,7 @@ export function Favourites({
   return (
 
     isFavShowed && (
-      <div className="flex flex-col items-center justify-start gap-2 xxs:grid xxs:grid-cols-2 xs:grid xs:grid-cols-3 sm:grid sm:grid-cols-3 md:grid md:grid-cols-3 lg:flex lg:flex-row xl:flex xl:flex-row 2xl:flex 2xl:flex-row">
+      <div className="flex flex-row items-center justify-start gap-2 xs:grid xs:grid-cols-2 sm:grid sm:grid-cols-3 md:grid md:grid-cols-3 lg:flex lg:flex-row xl:flex xl:flex-row 2xl:flex 2xl:flex-row">
         {weather && (
           <FavoriteItem
             weather={weather}

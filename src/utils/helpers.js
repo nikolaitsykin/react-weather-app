@@ -120,6 +120,7 @@ export const substring = (str) => {
   return str.length > 13 ? str.substring(0, 10) + "..." : str;
 };
 
+
 export const findUniqueObj = (arr, newObj) => {
   const isUnique = arr.every((obj) => {
     const newObjKeys = Object.keys(newObj);
@@ -127,7 +128,5 @@ export const findUniqueObj = (arr, newObj) => {
 
     return newObjKeys.every((key) => !objKeys.includes(key));
   });
-  // console.log(isUnique);
-  // console.log(arr);
   return isUnique ? arr.push(newObj) : arr;
 };
