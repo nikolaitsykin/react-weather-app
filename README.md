@@ -9,19 +9,19 @@ I'm not a designer, but I've done my best for the fully responsive design in thi
 Deployment: https://nikolaitsykin.github.io/react-weather-app/
 
 The main page with search and weather forecast for 14 days
-![Getting Started](src/images/main page.png)
+![Getting Started](src/images/main_page.png)
 
 Favourites menu
-![Favourites menu](src/images/favourites menu.png)
+![Favourites menu](src/images/favourites_menu.png)
 
 Unit switch
-![Unit switch](src/images/units switch.png)
+![Unit switch](src/images/units_switch.png)
 
 Responsive desing for smaller screens
-![Mobile ](src/images/mobile size.png)
+![Mobile ](src/images/mobile_size.png)
 
 Responsive desing for smaller screens
-![Mobile favourites](src/images/mobile favourites.png)
+![Mobile favourites](src/images/mobile_favourites.png)
 
 
 
