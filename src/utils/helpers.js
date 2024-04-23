@@ -6,16 +6,15 @@ export const getCardinalDirection = (angle) => {
 };
 
 export const isToday = (dt, timezone) => {
-  const currentTime = DateTime.now().setZone(timezone);
+  const currentTime = DateTime.now().setZone(timezone).toSeconds();
   const today = DateTime.fromSeconds(dt).setZone(timezone);
-  return currentTime.ts > today;
+  return currentTime > today;
 };
 
 export const isNow = (dt, timezone) => {
-  const now = DateTime.now().setZone(timezone);
-  const currentHour = DateTime.fromSeconds(dt).setZone(timezone);
-
-  return currentHour.ts <= now.ts;
+  const now = DateTime.now().setZone(timezone).toSeconds();
+  const currentHour = dt;
+  return currentHour <= now;
 };
 
 export const formatTime = (dt, timezone, format = "h:mm'") =>
@@ -42,41 +41,35 @@ export const formatDate = (dt, timezone, format = "LLL dd'") =>
 export const formatDayOfWeek = (dt, timezone, format = "ccc") =>
   DateTime.fromSeconds(dt).setZone(timezone).toFormat(format);
 
-export function sunsetSwitch(sunsetEpoch, timezone) {
-  const currentTime = DateTime.now();
-  const currentHour = formatHour(currentTime.ts, timezone);
-  const sunsetTime = formatHour(sunsetEpoch, timezone);
-  const isSunset = currentHour > sunsetTime ? true : false;
-  return isSunset;
-}
+export const sunsetSwitch = (sunsetEpoch, timezone) =>
+  DateTime.fromSeconds(sunsetEpoch)
+    .setZone(timezone)
+    .diff(DateTime.now(), ["hours"]).hours < 0;
 
-export const backgroundSwitch = (data) => {
-  let background;
-  let currentHour = formatHourTwentyFour(data.datetimeEpoch, data.timezone);
-  let sunsetHour = formatHourTwentyFour(data.sunsetEpoch, data.timezone);
-  let sunriseHour = formatHourTwentyFour(data.sunriseEpoch, data.timezone);
+export const backgroundSwitch = ({
+  datetimeEpoch,
+  sunriseEpoch,
+  sunsetEpoch,
+  timezone,
+  icon,
+}) => {
+  const currentHour = formatHourTwentyFour(datetimeEpoch, timezone);
+  const sunsetHour = formatHourTwentyFour(sunsetEpoch, timezone);
+  const sunriseHour = formatHourTwentyFour(sunriseEpoch, timezone);
 
-  if (currentHour === sunsetHour) {
-    background = "sunset";
-  } else if (currentHour === sunriseHour) {
-    background = "sunrise";
-  } else if (currentHour > sunsetHour && data.icon === "cloudy") {
-    background = "cloudy-night";
-  } else background = data.icon;
-
-  return background;
+  if (currentHour === sunsetHour) return "sunset";
+  if (currentHour === sunriseHour) return "sunrise";
+  if (currentHour > sunsetHour && icon === "cloudy") return "cloudy-night";
+  return icon;
 };
 
 export function pressureDescription(pressure) {
-  let description;
-  if (pressure > 1022) {
-    description = "The pressure is higher than normal";
-  } else if (pressure < 1009) {
-    description = "The pressure is lower than normal";
-  } else {
-    description = "The pressure is within normal limits";
-  }
-  return description;
+  const descriptions = [
+    "The pressure is lower than normal",
+    "The pressure is within normal limits",
+    "The pressure is higher than normal",
+  ];
+  return descriptions[Math.min(2, Math.floor((pressure - 1009) / 3))];
 }
 
 export function uvIndexDescription(uvindex) {
@@ -101,31 +94,22 @@ export function uvIndexDescription(uvindex) {
 }
 
 export function feelsLikeDescription(feelslike, temp, wind, humidity) {
-  let description;
-  if (feelslike > temp) {
-    description = "Feels warmer then it is";
-  } else if (feelslike > temp && humidity > 70) {
-    description = "Humidity is making it feel warmer";
-  } else if (feelslike < temp) {
-    description = "Feels cooler then it is";
-  } else if (feelslike < temp && wind >= 4) {
-    description = "Wind is making it feel cooler";
-  } else {
-    description = "Similar to the actual temperature";
-  }
-  return description;
+  if (feelslike > temp) return "Feels warmer than it is";
+  if (feelslike > temp && humidity > 70)
+    return "Humidity is making it feel warmer";
+  if (feelslike < temp) return "Feels cooler than it is";
+  if (feelslike < temp && wind >= 4) return "Wind is making it feel cooler";
+  return "Similar to the actual temperature";
 }
 
 export const substring = (str) => {
-  return str.length > 13 ? str.substring(0, 10) + "..." : str;
+  const maxLength = 13;
+  return str.length <= maxLength ? str : `${str.slice(0, maxLength)}...`;
 };
 
 export const findUniqueObj = (arr, newObj) => {
-  const isUnique = arr.every((obj) => {
-    const newObjKeys = Object.keys(newObj);
-    const objKeys = Object.keys(obj);
-
-    return newObjKeys.every((key) => !objKeys.includes(key));
-  });
-  return isUnique ? arr.push(newObj) : arr;
+  const newObjKey = Object.keys(newObj)[0];
+  const existingObj = arr.find((obj) => Object.keys(obj)[0] === newObjKey);
+  if (existingObj) return arr;
+  return [...arr, newObj];
 };

@@ -6,7 +6,7 @@ import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { loadOptions } from "../../utils/weatherApi";
 import classes from "./search.module.css";
 
-export function Search({ favourites, setQuery, add, setActive }) {
+export function Search({ setQuery, add, setActive }) {
   const [favourite, setFavourite] = useState({ city: "" });
   const [options, setOptions] = useState([]);
   const [display, setDisplay] = useState(false);
@@ -47,6 +47,7 @@ export function Search({ favourites, setQuery, add, setActive }) {
     setActive(newFavourite.id);
     setFavourite({ city: "", country: "" });
     setIsSelected(false);
+    setInputValue("");
   };
 
   const handleCancelClick = (e) => {
@@ -76,18 +77,17 @@ export function Search({ favourites, setQuery, add, setActive }) {
         />
         {display && (
           <div className={classes.dropdown}>
-            {options &&
-              options.map((location, index) => (
-                <div
-                  key={index}
-                  className={classes.option}
-                  onClick={() => handelLocationClick(location)}
-                >
-                  <span className={classes.location}>
-                    {location.city}, {location.country}
-                  </span>
-                </div>
-              ))}
+            {options?.map((location, index) => (
+              <div
+                key={index}
+                className={classes.option}
+                onClick={() => handelLocationClick(location)}
+              >
+                <span className={classes.location}>
+                  {location.city}, {location.country}
+                </span>
+              </div>
+            ))}
           </div>
         )}
         {isSelected && (

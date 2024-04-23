@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ReactComponent as CancelIcon } from "../../icons/cancel.svg";
 import {
   backgroundSwitch,
@@ -18,72 +18,72 @@ export default function FavoriteItem({
   setBackground,
   selectOnClick,
   isActive,
-  setActive,
-  active,
 }) {
-  const [currentWeather, setCurrentWeather] = useState({});
+  const [currentWeather, setCurrentWeather] = useState(null);
 
   useEffect(() => {
     const fetchWeather = async () => {
-      let weatherData;
-      weatherData = await getFormattedWeatherDataApi(city, units);
-      if (location !== weatherData.address) {
-        setCurrentWeather(weatherData);
-      } else {
-        setCurrentWeather(weatherData);
-        if (!active) setActive(1);
-      }
+      const weatherData = await getFormattedWeatherDataApi(city, units);
+      setCurrentWeather(weatherData);
     };
     fetchWeather();
-  }, [units]);
+  }, [city, units]);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     selectOnClick();
     setWeather(currentWeather);
     setBackground(backgroundSwitch(currentWeather));
-  };
+  }, [currentWeather, selectOnClick, setWeather, setBackground]);
+
+  if (!currentWeather) return null;
+
+  const { address, timezone, temp, temp_max, temp_min, conditions } =
+    currentWeather;
+  const isMyLocation = location === address;
+  const formattedTime = formatTimeFull(DateTime.now().ts, timezone);
+  const roundedTemp = Math.round(temp);
+  const roundedMinTemp = Math.round(temp_min);
+  const roundedMaxTemp = Math.round(temp_max);
+  const minMaxTempStyle =
+    "text-[11px] font-normal text-[#fffefe89] flex justify-between";
+  const tempStyle =
+    "text-4xl font-extralight text-white flex items-start self-end";
 
   return (
-    currentWeather && (
-      <div
-        className={`${
-          isActive ? "bg-[#dedddd52]" : "bg-[#50505133]"
-        } relative max-w-60 min-w-42 w-full h-auto rounded-lg [&>button]:hover:opacity-100`}
+    <div
+      className={`${
+        isActive ? "bg-[#dedddd52]" : "bg-[#50505133]"
+      } relative max-w-60 min-w-42 w-full h-auto rounded-lg [&>button]:hover:opacity-100`}
+    >
+      <button
+        className="absolute w-3.5 h-3.5 right-0 cursor-pointer z-10 opacity-0 "
+        onClick={() => (isMyLocation ? null : remove(favourite))}
       >
-        <button
-          className="absolute w-3.5 h-3.5 right-0 cursor-pointer z-10 opacity-0 "
-          onClick={() => (location === city ? null : remove(favourite))}
-        >
-          <CancelIcon className="active:fill-[#e0dede]" />
-        </button>
-        <div
-          onClick={handleClick}
-          className="flex flex-row justify-between p-2 z-0 active: rounded-lg"
-        >
-          <div className="flex flex-col justify-between">
-            <span className="text-[13px] font-normal text-white self-start items-start">
-              {location === city ? "My Location" : substring(city)}
-            </span>
-            <span className="text-[11px] font-normal text-[#fffefe89] self-start">
-              {location === city
-                ? location
-                : formatTimeFull(DateTime.now().ts, currentWeather.timezone)}
-            </span>
-            <span className="text-[11px] font-normal text-[#fffefe89] self-start">
-              {currentWeather.conditions}
-            </span>
-          </div>
-          <div className="flex flex-col justify-between">
-            <span className="text-4xl font-extralight text-white flex items-start self-end ">
-              {Math.round(currentWeather.temp)}
-            </span>
-            <span className="text-[11px] font-normal text-[#fffefe89] flex justify-between">
-              H:{Math.round(currentWeather.temp_max)}
-              L:{Math.round(currentWeather.temp_min)}
-            </span>
-          </div>
+        <CancelIcon className="active:fill-[#e0dede]" />
+      </button>
+      <div
+        onClick={handleClick}
+        className="flex flex-row justify-between p-2 z-0 active: rounded-lg"
+      >
+        <div className="flex flex-col justify-between">
+          <span className="text-[13px] font-normal text-white self-start items-start">
+            {isMyLocation ? "My Location" : substring(address)}
+          </span>
+          <span className="text-[11px] font-normal text-[#fffefe89] self-start">
+            {isMyLocation ? address : formattedTime}
+          </span>
+          <span className="text-[11px] font-normal text-[#fffefe89] self-start">
+            {conditions}
+          </span>
+        </div>
+        <div className="flex flex-col justify-between">
+          <span className={tempStyle}>{roundedTemp}</span>
+          <span className={minMaxTempStyle}>
+            H:{roundedMinTemp}
+            L:{roundedMaxTemp}
+          </span>
         </div>
       </div>
-    )
+    </div>
   );
 }

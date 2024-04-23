@@ -36,35 +36,40 @@ export default function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      let weatherData;
       if (query === "") {
         const myLocation = await getLocation();
-
-        weatherData = await getFormattedWeatherDataApi(
-          myLocation.city.name,
-          units
-        );
+        const cityName = myLocation.city.name;
+        const weatherData = await getFormattedWeatherDataApi(cityName, units);
         setWeather(weatherData);
         setBackground(backgroundSwitch(weatherData));
-        setLocation(myLocation.city.name);
-      } else weatherData = await getFormattedWeatherDataApi(query, units);
-      setWeather(weatherData);
-      setBackground(backgroundSwitch(weatherData));
+        setLocation(cityName);
+      } else {
+        const weatherData = await getFormattedWeatherDataApi(query, units);
+        setWeather(weatherData);
+        setBackground(backgroundSwitch(weatherData));
+      }
     };
     fetchWeather();
   }, [query, units]);
 
+  const headerContainerStyle =
+    "h-16 mb-2 grid grid-rows-2 place-content-center md:h-8 md:flex md:justify-center lg:h-8 lg:flex lg:justify-center xl:h-8 xl:flex xl:justify-center 2xl:h-8 2xl:flex 2xl:justify-center";
+  const searchContainerStyle =
+    "absolute h-8 top-[42px] right-[50%] left-[50%] md:top-[9px] lg:top-[9px] xl:top-[9px] 2xl:top-[9px]";
+  const dailyForecastContainerStyle =
+    "grid grid-rows-1 my-2 gap-2 md:grid-rows-1 lg:grid-cols-2 xl:grid-cols-2";
+
   return (
     <div className={background}>
-      <div className="max-w-4xl min-h-screen mx-auto p-2 relative   ">
-        <div className="h-16 mb-2 grid grid-rows-2 place-content-center md:h-8 md:flex md:justify-center lg:h-8 lg:flex lg:justify-center xl:h-8 xl:flex xl:justify-center 2xl:h-8 2xl:flex 2xl:justify-center">
+      <div className="max-w-4xl min-h-screen mx-auto p-2 relative">
+        <div className={headerContainerStyle}>
           <Header
             setUnits={setUnits}
             isFavShowed={isFavShowed}
             setIsFavShowed={setIsFavShowed}
           />
         </div>
-        <div className="absolute h-8 top-[42px] right-[50%] left-[50%] md:top-[9px] lg:top-[9px] xl:top-[9px] 2xl:top-[9px]">
+        <div className={searchContainerStyle}>
           <Search
             query={query}
             setQuery={setQuery}
@@ -94,10 +99,10 @@ export default function App() {
             <div className="my-2">
               <TodayForecast weather={weather} />
             </div>
-            <div className="my-2 w-full ">
+            <div className="mt-2 w-full">
               <HourForecast items={weather.hours} weather={weather} />
             </div>
-            <div className="grid grid-rows-1 my-2 gap-2 md:grid-rows-1 lg:grid-cols-2 xl:grid-cols-2">
+            <div className={dailyForecastContainerStyle}>
               <div className="w-full">
                 <DailyForecast items={weather.days} weather={weather} />
               </div>

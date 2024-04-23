@@ -16,22 +16,22 @@ export function Header({ setUnits, isFavShowed, setIsFavShowed }) {
     setIsFavShowed(!isFavShowed);
   };
 
+  const listButtonStyle =
+    "h-[30px] w-[30px] flex justify-center bg-[#50505133] hover:bg-[#8e9ddb80] rounded-lg";
+  const logoStyle =
+    "text-2xl text-white font-medium-white flex items-end mr-2 cursor-pointer";
+    
   return (
     <header className="w-full mb-2">
       <div className="flex h-8 flex-row justify-between">
-        <div className="text-2xl text-white font-medium-white flex items-end mr-2 cursor-pointer">
-          Your Weather
-        </div>
+        <div className={logoStyle}>Your Weather</div>
         <div className="flex w-21 ">
           <Switch
             isUnitMetric={isUnitMetric}
             toggle={toggle}
             handleToggleChange={handleUnitsChange}
           />
-          <button
-            className="h-[30px] w-[30px] flex justify-center bg-[#50505133] hover:bg-[#8e9ddb80] rounded-lg"
-            onClick={handleClick}
-          >
+          <button className={listButtonStyle} onClick={handleClick}>
             <ListIcon className="h-[30px] flex self-center" />
           </button>
         </div>

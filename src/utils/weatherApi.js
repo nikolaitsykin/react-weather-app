@@ -55,16 +55,12 @@ export async function getLocation() {
   return data;
 }
 
-getLocation();
-
 async function getWeatherDataApi(city, units) {
   const url = new URL(
     BASE_URL + `${city}?unitGroup=${units}&key=${API_KEY}&contentType=json`
   );
   const result = await fetch(url);
   const data = await handleRequest(result);
-
-  // console.log(data);
 
   return data;
 }
@@ -112,7 +108,6 @@ const formatCurrentWeatherApi = (data) => {
     )
     .concat(data.days[1].hours)
     .slice(0, 24);
-  // console.log(hours);
 
   return {
     timezone,
