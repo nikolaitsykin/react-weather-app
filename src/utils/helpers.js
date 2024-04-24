@@ -12,9 +12,9 @@ export const isToday = (dt, timezone) => {
 };
 
 export const isNow = (dt, timezone) => {
-  const now = DateTime.now().setZone(timezone).toSeconds();
-  const currentHour = dt;
-  return currentHour <= now;
+  const now = DateTime.now().setZone(timezone);
+  const currentHour = DateTime.fromSeconds(dt).setZone(timezone).toSeconds();
+  return currentHour <= now.ts;
 };
 
 export const formatTime = (dt, timezone, format = "h:mm'") =>
@@ -41,10 +41,11 @@ export const formatDate = (dt, timezone, format = "LLL dd'") =>
 export const formatDayOfWeek = (dt, timezone, format = "ccc") =>
   DateTime.fromSeconds(dt).setZone(timezone).toFormat(format);
 
-export const sunsetSwitch = (sunsetEpoch, timezone) =>
-  DateTime.fromSeconds(sunsetEpoch)
-    .setZone(timezone)
-    .diff(DateTime.now(), ["hours"]).hours < 0;
+export const sunsetSwitch = (sunsetEpoch, timezone) => {
+  const currentTime = DateTime.now().setZone(timezone).toSeconds();
+  const sunsetTime = DateTime.fromSeconds(sunsetEpoch).setZone(timezone).toSeconds();
+  return currentTime < sunsetTime;
+};
 
 export const backgroundSwitch = ({
   datetimeEpoch,
@@ -57,9 +58,12 @@ export const backgroundSwitch = ({
   const sunsetHour = formatHourTwentyFour(sunsetEpoch, timezone);
   const sunriseHour = formatHourTwentyFour(sunriseEpoch, timezone);
 
-  if (currentHour === sunsetHour) return "sunset";
-  if (currentHour === sunriseHour) return "sunrise";
-  if (currentHour > sunsetHour && icon === "cloudy") return "cloudy-night";
+  if (currentHour === sunsetHour || currentHour === sunriseHour) {
+    return currentHour === sunsetHour ? "sunset" : "sunrise";
+  }
+  if (icon === "cloudy" && currentHour > sunsetHour) {
+    return "cloudy-night";
+  }
   return icon;
 };
 
@@ -73,30 +77,19 @@ export function pressureDescription(pressure) {
 }
 
 export function uvIndexDescription(uvindex) {
-  let uvValues = {
-    description: "",
-    value: "",
+  const uvIndexDescriptions = {
+    "0-2": { description: "You can safely enjoy being outside", label: "Low" },
+    "3-5": { description: "Seek shade during midday hours", label: "Moderate" },
+    "6-7": { description: "Seek shade during midday hours", label: "High" },
+    "8-": { description: "Avoid being outside during midday hours", label: "Very high" },
   };
-  if (uvindex <= 2) {
-    uvValues.description = "You can safely enjoy being outside";
-    uvValues.label = "Low";
-  } else if (uvindex <= 5) {
-    uvValues.description = "Seek shade during midday hours";
-    uvValues.label = "Moderate";
-  } else if (uvindex <= 7) {
-    uvValues.description = "Seek shade during midday hours";
-    uvValues.label = "High";
-  } else if (uvindex > 7) {
-    uvValues.description = "Avoid being outside during midday hours";
-    uvValues.label = "Very high";
-  }
-  return uvValues;
+  const range = `${uvindex <= 2 ? 0 : Math.ceil(uvindex - 1)}-${uvindex < 8 ? 2 : Math.floor(uvindex)}`;
+  return uvIndexDescriptions[range] || { description: "", label: "" };
 }
 
 export function feelsLikeDescription(feelslike, temp, wind, humidity) {
   if (feelslike > temp) return "Feels warmer than it is";
-  if (feelslike > temp && humidity > 70)
-    return "Humidity is making it feel warmer";
+  if (feelslike > temp && humidity > 70) return "Humidity is making it feel warmer";
   if (feelslike < temp) return "Feels cooler than it is";
   if (feelslike < temp && wind >= 4) return "Wind is making it feel cooler";
   return "Similar to the actual temperature";

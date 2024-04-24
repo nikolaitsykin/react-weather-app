@@ -57,7 +57,7 @@ export default function App() {
   const searchContainerStyle =
     "absolute h-8 top-[42px] right-[50%] left-[50%] md:top-[9px] lg:top-[9px] xl:top-[9px] 2xl:top-[9px]";
   const dailyForecastContainerStyle =
-    "grid grid-rows-1 my-2 gap-2 md:grid-rows-1 lg:grid-cols-2 xl:grid-cols-2";
+    "grid grid-rows-1 my-2 gap-2 md:grid-rows-1 lg:grid-cols-2 xl:grid-cols-2";  
 
   return (
     <div className={background}>
